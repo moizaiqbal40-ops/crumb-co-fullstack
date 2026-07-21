@@ -12,7 +12,6 @@ Live search, a "build your own cake" tool, a spin-the-wheel picker, a working sh
 - **Server:** Apache (via XAMPP)
 
 ## Project Structure
-
 ```
 crumb-co-site/
 ├── index.php              → main page (PHP fetches products from MySQL, injects into JS)
