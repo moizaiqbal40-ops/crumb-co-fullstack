@@ -1,6 +1,6 @@
 <?php
 /**
- * Database connection (PDO + MySQL, for XAMPP's default MySQL setup).
+ * Database connection (MySQL, for XAMPP's default MySQL setup).
  *
  * Default XAMPP credentials: user "root", empty password, host "localhost".
  * If you changed your MySQL root password, update it below.
