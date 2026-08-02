@@ -1,4 +1,4 @@
-# Crumb & Co — Full-Stack Bakery Website 🍰
+# Crumb & Co — Full-Stack Bakery Website 
 
 A full-stack bakery ordering website built with **PHP, MySQL, and vanilla JavaScript** — built as a portfolio project to demonstrate frontend, backend, and database skills together (no framework required, runs on plain XAMPP).
 
