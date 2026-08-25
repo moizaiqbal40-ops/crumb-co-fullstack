@@ -2,7 +2,6 @@
 require_once __DIR__ . "/config/db.php";
 
 // Same product list the main site uses, so checkout.js can resolve prices/names/images
-// for whatever was saved in the browser's cart (localStorage only stores product IDs + quantities).
 $stmt = $pdo->query(
     "SELECT id, name, category, tag, price, description, color1, color2, size, image
      FROM products WHERE is_available = 1 ORDER BY id ASC"
