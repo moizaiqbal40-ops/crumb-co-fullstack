@@ -2,7 +2,7 @@
 /**
  * POST /api/create_order.php
  * Accepts JSON: { items: [{id, name, price, qty}], customItems: [{base, decor, message, price}], total }
- * Saves the order and its items to the database, returns { success: true, order_id }.
+ * Saves the order and its items, returns { success: true, order_id }.
  */
 
 header("Content-Type: application/json");
