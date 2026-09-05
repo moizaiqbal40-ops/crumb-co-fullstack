@@ -1,109 +1,299 @@
-# Crumb & Co — Full-Stack Bakery Website 
+<h1 align="center">🍰 Crumb & Co — Full-Stack Bakery Website</h1>
 
-A full-stack bakery ordering website built with **PHP, MySQL, and vanilla JavaScript** — built as a portfolio project to demonstrate frontend, backend, and database skills together (no framework required, runs on plain XAMPP).
+<p align="center">
+  A full-stack bakery ordering experience built with <strong>PHP, MySQL, vanilla JavaScript, HTML & CSS</strong>.
+</p>
 
-Live search, a "build your own cake" tool, a spin-the-wheel picker, a working shopping basket, and **real order storage in MySQL** with a small admin dashboard to view incoming orders.
+<p align="center">
+  <em>Browse the menu · Build a custom cake · Checkout · Store orders · Manage orders</em>
+</p>
 
-## Tech Stack
+---
 
-- **Frontend:** HTML, CSS, vanilla JavaScript (no framework — shows core JS skills clearly to recruiters)
-- **Backend:** PHP (procedural, PDO for database access)
-- **Database:** MySQL
-- **Server:** Apache (via XAMPP)
+## 📌 Overview
 
-## Project Structure
+**Crumb & Co** is a portfolio-focused full-stack bakery website designed to demonstrate how a frontend connects to a real backend and relational database — without relying on a frontend framework.
+
+The application includes a database-driven menu, live search and filtering, a custom cake builder, shopping basket, checkout flow, order persistence, and an admin dashboard for managing incoming orders.
+
+Unlike a static ecommerce mockup, products and orders are stored in **MySQL**, while PHP handles server-side data access and order creation.
+
+## ✨ Features
+
+- 🧁 **Database-driven menu** — products are loaded from MySQL rather than hardcoded into the UI
+- 🔎 **Live product search** — search pastries, cakes, cookies, and flavors
+- 🏷️ **Category filters** — Cakes, Pastries, Cookies, or All
+- 🎂 **Build Your Own Cake** — choose base flavor, decoration, and a custom message
+- 🧺 **Shopping basket** — add products and custom cakes before checkout
+- 🛒 **Real checkout flow** — customer details, delivery address, order summary, and payment-method selection
+- 💾 **Persistent orders** — checkout requests are saved to MySQL with their individual order items
+- 📋 **Admin dashboard** — view incoming orders and update their status
+- 🔌 **REST-style API endpoints** — PHP endpoints expose product data and accept order creation requests
+- 🎡 **Crumb Wheel** — interactive random treat picker
+- 📱 **Responsive UI** — designed for desktop and smaller screens
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | HTML5, CSS3, Vanilla JavaScript |
+| Backend | PHP |
+| Database | MySQL |
+| Database Access | PDO + prepared statements |
+| Web Server | Apache |
+| Local Environment | XAMPP |
+| API | PHP REST-style JSON endpoints |
+
+> **Why no framework?** This project intentionally uses vanilla JavaScript and procedural PHP so the core frontend, backend, API, and database logic remain visible and easy to explain in a technical interview.
+
+## 🏗️ Architecture
+
+```text
+Browser
+   │
+   ├── HTML / CSS / JavaScript
+   │
+   ▼
+PHP Application
+   │
+   ├── index.php          → database-driven storefront
+   ├── checkout.php       → checkout + order submission
+   ├── api/products.php   → GET products as JSON
+   └── api/create_order.php → POST + persist orders
+   │
+   ▼
+PDO
+   │
+   ▼
+MySQL
+   ├── products
+   ├── orders
+   └── order_items
+
+Admin
+   │
+   └── admin/orders.php → view + update order status
 ```
-crumb-co-site/
-├── index.php              → main page (PHP fetches products from MySQL, injects into JS)
-├── config/
-│   └── db.php              → database connection (PDO)
-├── api/
-│   ├── products.php         → GET: returns all products as JSON
-│   └── create_order.php     → POST: saves a new order + items to the database
+
+## 📁 Project Structure
+
+```text
+crumb-co-fullstack/
+├── index.php
+├── checkout.php
+│
 ├── admin/
-│   └── orders.php            → simple dashboard to view all orders, update status
+│   └── orders.php
+│
+├── api/
+│   ├── products.php
+│   └── create_order.php
+│
+├── config/
+│   └── db.php
+│
 ├── assets/
 │   ├── style.css
 │   ├── script.js
-│   └── images/                → product photos
+│   └── images/
+│       └── product images
+│
 ├── database/
-│   └── schema.sql              → run this once to create tables + seed today's menu
+│   ├── schema.sql
+│   └── migration_add_checkout_fields.sql
+│
+├── .gitignore
 └── README.md
 ```
 
-## How the full-stack part works
+## 🔄 How the Full-Stack Flow Works
 
-1. **Products come from MySQL, not hardcoded JS.** `index.php` queries the `products` table and injects the result into the page as `window.SERVER_PRODUCTS`. `script.js` uses that if present — meaning you can now add/edit/remove menu items by editing the database (via phpMyAdmin), no code changes needed.
-2. **A real checkout page.** Clicking "Checkout" in the basket takes you to `checkout.php` — a proper order page with an order summary, a delivery details form (name, phone, address), and a payment method selector (Cash on Delivery, JazzCash, Easypaisa, or a demo Card form). Submitting it calls `api/create_order.php`, which saves the order for real in MySQL and returns an order ID, shown on a confirmation screen.
-3. **Admin dashboard** (`admin/orders.php`) lists every order placed — customer details, items, payment method, and total — and lets you update each order's status (pending → confirmed → delivered).
+### 1. Products → MySQL → Frontend
 
-### If you already imported the database before this update
+The storefront queries the `products` table through PHP. Product information such as name, category, price, description, availability, and image path is retrieved from the database and passed to the frontend.
 
-The `orders` table now has two new columns (`delivery_address`, `payment_method`) to support the checkout page. If you already ran the old `schema.sql` and don't want to start over, just import `database/migration_add_checkout_fields.sql` instead (Import tab in phpMyAdmin, same as before). If you're setting this up fresh, just use `schema.sql` — it already includes these columns.
+This means menu changes can be made through the database without rewriting the product list in JavaScript.
 
-## Setup with XAMPP
+### 2. Shopping Basket → Checkout
 
-1. **Install XAMPP** (if not already) from apachefriends.org, and open the XAMPP Control Panel.
-2. **Start Apache and MySQL** from the control panel (both need to be running).
-3. **Copy this whole `crumb-co-site` folder** into your XAMPP's `htdocs` directory:
-   - Windows: `C:\xampp\htdocs\crumb-co-site`
-   - Mac: `/Applications/XAMPP/htdocs/crumb-co-site`
-   - Linux: `/opt/lampp/htdocs/crumb-co-site`
-4. **Import the database:**
-   - Open `http://localhost/phpmyadmin` in your browser.
-   - Click **Import** → choose the file `database/schema.sql` → click **Go**.
-   - This creates the `crumb_co` database with 3 tables (`products`, `orders`, `order_items`) and seeds today's 9 menu items.
-5. **Check the DB connection settings** in `config/db.php` — the defaults (`root` user, empty password) match XAMPP's default MySQL setup, so you usually don't need to change anything.
-6. **Visit the site:** `http://localhost/crumb-co-site/index.php`
-7. **View the admin dashboard:** `http://localhost/crumb-co-site/admin/orders.php`
+Users can add regular menu items or a custom cake to the basket. The checkout page collects the customer's name, phone number, delivery address, and selected payment method.
 
-That's it — no `npm install`, no build step, no framework setup. Just Apache + MySQL + PHP, exactly like XAMPP provides out of the box.
+### 3. Checkout → API → Database
 
-## Testing the full flow
+`api/create_order.php` accepts the order payload, validates required customer information, starts a database transaction, inserts the order, inserts its order items, and returns the generated order ID as JSON.
 
-1. Open the site, add a few items to the basket (or build a custom cake).
-2. Click **Checkout** — this opens `checkout.php` with your order summary.
-3. Fill in name, phone, and address, pick a payment method, and click **Place Order**.
-4. You'll see a confirmation screen with a real order number.
-5. Open `admin/orders.php` — your order should appear there immediately, with customer details, items, and total.
-6. Try changing an order's status from the dropdown — it updates instantly.
+### 4. Admin → Order Management
 
-## Editing the menu
+`admin/orders.php` provides a simple dashboard where stored orders can be viewed and their status can be updated through the order lifecycle.
 
-You no longer need to touch any code to change what's on the menu:
+## 🔌 API Endpoints
 
-- Open **phpMyAdmin** → `crumb_co` database → `products` table.
-- Edit prices, descriptions, or add new rows directly.
-- Refresh the site — changes show up immediately (server-rendered on every page load).
+### `GET /api/products.php`
 
-To add a new product's photo: put the image file in `assets/images/`, then set that row's `image` column to `assets/images/your-photo.jpg`.
+Returns available products as JSON.
 
-## Notes for demoing this to recruiters
+**Purpose:**
+- Retrieve database-backed menu data
+- Provide a reusable read endpoint
+- Keep product information separate from frontend hardcoding
 
-- This project intentionally uses **plain PHP + PDO** rather than a framework (Laravel, etc.) so every line of backend logic is visible and easy to explain in an interview — good for entry-level portfolio pieces.
-- The `api/` folder follows a simple REST-ish pattern (`GET /api/products.php`, `POST /api/create_order.php`), which is a natural talking point if asked "have you built an API before?"
-- The database uses a proper foreign-key relationship (`order_items.order_id → orders.id`, `order_items.product_id → products.id`) — worth mentioning if asked about relational database design.
-- `config/db.php` uses PDO with prepared statements throughout (see `api/create_order.php`) — protects against SQL injection, a good point to raise if asked about security basics.
+### `POST /api/create_order.php`
 
-## Known limitations (be upfront about these if asked)
+Creates a new order from checkout data.
 
-- Payment methods (JazzCash/Easypaisa/Card) are selectable at checkout, but no real payment gateway is wired up — orders are recorded as "pending" and marked paid manually via the admin dashboard. Mention this as the natural next step ("next I'd integrate JazzCash's actual API").
-- No login/authentication for the admin dashboard — anyone with the URL can view it. Fine for a portfolio demo, but flag this as a "next step" if discussing production-readiness.
-- The Bake Schedule and Crumb Wheel sections are still static (not database-driven) — mention this as a possible extension if asked what you'd add next.
+**Handles:**
+- Regular products
+- Custom cakes
+- Customer information
+- Delivery address
+- Payment-method selection
+- Order totals
+- Order items
 
-## Putting a live demo on your portfolio
+The endpoint uses a database transaction so the order and its related items are persisted together.
 
-XAMPP is just for local development — recruiters can't visit `localhost`. To get a real, shareable link, you need PHP + MySQL hosting (static hosts like GitHub Pages, Netlify, or Vercel won't run PHP). Good free/cheap options:
+## 🗄️ Database Design
 
-- **InfinityFree** (infinityfree.net) — free PHP + MySQL hosting, good for portfolio demos.
-- **000webhost** (000webhost.com) — free tier, PHP + MySQL, easy to use.
-- **Hostinger** — very cheap shared hosting popular in Pakistan, PHP + MySQL included.
+The project uses three main relational tables:
 
-General steps for any of these:
-1. Sign up, create a new hosting account/site.
-2. Use their **File Manager** (or FTP) to upload everything inside `crumb-co-site/` to the site's root folder (often called `public_html`).
-3. Use their **phpMyAdmin** (usually available from the hosting dashboard) to import `database/schema.sql`, exactly like you did locally.
-4. Update `config/db.php` with the database credentials **they give you** (host, database name, username, password — these are almost never `root`/empty on real hosting, unlike XAMPP).
-5. Visit your new live URL (e.g. `https://yourname.infinityfreeapp.com/index.php`) — that's your shareable link.
+```text
+products
+   │
+   │  product_id
+   ▼
+order_items ──────► orders
+```
 
-Put that link directly on your portfolio/resume, and mention it's a full-stack project (PHP, MySQL, vanilla JS) with a working checkout flow and admin dashboard — that combination, not just a static frontend, is what makes it stand out to recruiters.
+- **`products`** — menu items and product metadata
+- **`orders`** — customer/order-level information and status
+- **`order_items`** — individual products or custom cakes belonging to an order
+
+Foreign-key relationships connect order items to their parent order and, where applicable, the original product.
+
+## 🚀 Run Locally with XAMPP
+
+### Prerequisites
+
+- XAMPP
+- Apache
+- MySQL
+- A web browser
+
+### Setup
+
+1. Install and open **XAMPP**.
+2. Start **Apache** and **MySQL**.
+3. Copy the repository into your XAMPP `htdocs` directory:
+
+```text
+C:\xampp\htdocs\crumb-co-fullstack
+```
+
+4. Open **phpMyAdmin**:
+
+```text
+http://localhost/phpmyadmin
+```
+
+5. Import:
+
+```text
+database/schema.sql
+```
+
+6. Check `config/db.php` and make sure its credentials match your local MySQL setup.
+7. Open the application:
+
+```text
+http://localhost/crumb-co-fullstack/index.php
+```
+
+8. Open the admin dashboard:
+
+```text
+http://localhost/crumb-co-fullstack/admin/orders.php
+```
+
+No `npm install`, bundler, or frontend build step is required.
+
+## 🧪 Test the Complete Flow
+
+1. Open the storefront.
+2. Search or filter the menu.
+3. Add one or more products to the basket.
+4. Build a custom cake and add it as well.
+5. Open checkout.
+6. Enter the required customer and delivery information.
+7. Select a payment method.
+8. Place the order.
+9. Confirm that an order ID is returned.
+10. Open the admin dashboard.
+11. Verify the new order and update its status.
+
+## 📸 Screenshots
+
+<!--
+Add project screenshots here later.
+Recommended: 4 screenshots showing the storefront, custom cake builder,
+checkout flow, and admin dashboard.
+
+Example:
+<p align="center">
+  <img src="screenshots/home.png" width="48%" alt="Crumb & Co homepage" />
+  <img src="screenshots/menu.png" width="48%" alt="Crumb & Co menu" />
+</p>
+
+<p align="center">
+  <img src="screenshots/checkout.png" width="48%" alt="Crumb & Co checkout" />
+  <img src="screenshots/admin.png" width="48%" alt="Crumb & Co admin dashboard" />
+</p>
+-->
+
+## 🔐 Security & Engineering Notes
+
+- Database access is handled through **PDO**.
+- Order insertion uses **prepared statements**.
+- Input is validated before an order is stored.
+- Order creation uses a **database transaction** so related records are committed together.
+- The database schema uses **foreign keys** to maintain relational integrity.
+
+## ⚠️ Current Limitations
+
+This is a portfolio project rather than a production ecommerce system.
+
+- **Payment gateways are not actually integrated.** JazzCash, Easypaisa, and Card are selectable demo payment methods; no real transaction is processed.
+- **Admin authentication is not implemented.** The dashboard is intentionally simple for demonstration purposes.
+- **Bake Schedule and Crumb Wheel data are currently static.** They could be moved into database tables in a future iteration.
+- **XAMPP is intended for local development.** A PHP/MySQL hosting environment would be required for a public deployment.
+
+## 🚧 Future Improvements
+
+- Add admin authentication and role-based access
+- Integrate a real payment provider
+- Add server-side CSRF protection and stronger input validation
+- Add customer accounts and order history
+- Add inventory/availability management
+- Move bake schedules and wheel options into MySQL
+- Add automated tests for API and checkout flows
+- Deploy to a PHP/MySQL hosting environment with production configuration
+
+## 🎯 What This Project Demonstrates
+
+This project demonstrates practical understanding of:
+
+- Frontend development without relying on a framework
+- PHP server-side programming
+- REST-style API design
+- MySQL relational database design
+- CRUD-style data handling
+- PDO and prepared statements
+- Database transactions
+- Foreign-key relationships
+- Form validation
+- Client/server data flow
+- Responsive UI implementation
+- Building a complete feature from UI → API → database → admin workflow
+
+## 👩‍💻 Portfolio Note
+
+**Crumb & Co** was built to demonstrate full-stack fundamentals through a complete, explainable application rather than a purely visual frontend. The strongest part of the project is the connection between the customer-facing experience, PHP backend, JSON API, relational MySQL database, and admin order workflow.
