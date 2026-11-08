@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . "/config/db.php";
 
-// Fetch today's menu from the database instead of a hardcoded JS array.
+// Fetch today's menu from the database 
 $stmt = $pdo->query(
     "SELECT id, name, category, tag, price, description, color1, color2, size, image
      FROM products WHERE is_available = 1 ORDER BY id ASC"
