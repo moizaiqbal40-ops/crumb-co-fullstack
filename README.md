@@ -2,7 +2,7 @@
 
 # 🍰 Crumb & Co
 
-### A full-stack bakery ordering experience built from the UI to the database.
+### A full-stack bakery ordering experience
 
 </div>
 
