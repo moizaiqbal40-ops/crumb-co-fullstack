@@ -44,6 +44,6 @@ Products come from the database, while checkout sends validated order data to th
 http://localhost/crumb-co-fullstack/index.php
 ```
 
-## ✨ What I Learned / Challenges
+##  Challenges
 
 The main challenge was connecting a polished frontend to real backend logic — especially making checkout, validation, transactions, and relational order data work together cleanly.
